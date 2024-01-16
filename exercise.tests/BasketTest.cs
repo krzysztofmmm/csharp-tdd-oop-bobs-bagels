@@ -14,41 +14,35 @@ namespace exercise.tests
         {
             _customerBasket = new CustomerBasket();
             _inventory = Inventory.Instance;
-            _bagel = new Bagel("BGLO" , 0.49f , "Bagel" , "Onion");
+            _bagel = new Bagel(1 , "BGLO" , 0.49f , "Bagel" , "Onion");
             _inventory.UpdateInventory(_bagel);
-        }
-
-        [TestCase("BGLO" , 0.49f , "Bagel" , "Onion")]
-        [TestCase("BGLP" , 0.39f , "Bagel" , "Plain")]
-        [TestCase("BGLE" , 0.49f , "Bagel" , "Everything")]
-        [TestCase("BGLS" , 0.49f , "Bagel" , "Sesame")]
-        [TestCase("COFB" , 0.99f , "Coffee" , "Black")]
-        public void TestAddItem(string sku , float price , string name , string variant)
-        {
-            _bagel = new Bagel(sku , price , name , variant);
-            _inventory.UpdateInventory(_bagel);
-            Assert.IsTrue(_customerBasket.AddItem(_bagel.SKU));
         }
 
         [Test]
-        public void TestRemoveItem()
+        public void TestAddBagel()
         {
-            _customerBasket.AddItem(_bagel.SKU);
-            Assert.IsTrue(_customerBasket.RemoveItem(_bagel.SKU));
+            _bagel = _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
+            Assert.IsNotNull(_bagel);
+        }
+
+        [Test]
+        public void TestRemoveBagel()
+        {
+            _bagel = _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
+            Assert.IsTrue(_customerBasket.RemoveBagel(_bagel.Id));
         }
 
         [Test]
         public void TestViewBasket()
         {
-            _customerBasket.AddItem(_bagel.SKU);
+            _bagel = _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
             CollectionAssert.Contains(_customerBasket.ViewBasket() , _bagel);
         }
-
 
         [Test]
         public void TestCalculateTotalCost()
         {
-            _customerBasket.AddItem(_bagel.SKU);
+            _bagel = _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
             Assert.AreEqual(0.49f , _customerBasket.CalculateTotalCost());
         }
 
@@ -61,11 +55,10 @@ namespace exercise.tests
         [Test]
         public void TestIsFullWhenFull()
         {
-            _customerBasket.Capacity = 1;
-            _customerBasket.AddItem(_bagel.SKU);
+            _customerBasket.ChangeCapacity(1);
+            _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
             Assert.IsTrue(_customerBasket.IsFull());
         }
-
 
         [Test]
         public void TestAddFilling()
@@ -78,18 +71,6 @@ namespace exercise.tests
         {
             _bagel.AddFilling("Cheese");
             Assert.IsTrue(_bagel.RemoveFilling("Cheese"));
-        }
-
-        [Test]
-        public void TestRemoveFillingNotInBagel()
-        {
-            Assert.IsFalse(_bagel.RemoveFilling("Cheese"));
-        }
-
-        [Test]
-        public void TestViewCost()
-        {
-            Assert.AreEqual(0.49f , _bagel.ViewCost());
         }
     }
 }

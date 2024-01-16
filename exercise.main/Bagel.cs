@@ -2,14 +2,16 @@
 {
     public class Bagel
     {
+        public int Id { get; set; }
         public string SKU { get; set; }
         public float Price { get; set; }
         public string Name { get; set; }
         public string Variant { get; set; }
         public List<string> Fillings { get; set; }
 
-        public Bagel(string sku , float price , string name , string variant)
+        public Bagel(int id , string sku , float price , string name , string variant)
         {
+            Id = id;
             SKU = sku;
             Price = price;
             Name = name;
@@ -19,8 +21,12 @@
 
         public bool AddFilling(string filling)
         {
-            Fillings.Add(filling);
-            return true;
+            if(!Fillings.Contains(filling))
+            {
+                Fillings.Add(filling);
+                return true;
+            }
+            return false;
         }
 
         public bool RemoveFilling(string filling)
@@ -34,3 +40,4 @@
         }
     }
 }
+

@@ -11,23 +11,20 @@
             Capacity = 10;  // Set a default capacity
         }
 
-        public bool AddItem(string sku)
+        public Bagel AddBagel(string sku , float price , string name , string variant)
         {
             if(Items.Count < Capacity)
             {
-                var bagel = Inventory.Instance.GetBagel(sku);
-                if(bagel != null)
-                {
-                    Items.Add(bagel);
-                    return true;
-                }
+                var bagel = new Bagel(Items.Count + 1 , sku , price , name , variant);
+                Items.Add(bagel);
+                return bagel;
             }
-            return false;
+            return null;
         }
 
-        public bool RemoveItem(string sku)
+        public bool RemoveBagel(int id)
         {
-            var bagel = Items.FirstOrDefault(b => b.SKU == sku);
+            var bagel = Items.FirstOrDefault(b => b.Id == id);
             if(bagel != null)
             {
                 Items.Remove(bagel);
@@ -49,6 +46,16 @@
         public bool IsFull()
         {
             return Items.Count >= Capacity;
+        }
+
+        public bool ChangeCapacity(int newCapacity)
+        {
+            if(newCapacity >= 0)
+            {
+                Capacity = newCapacity;
+                return true;
+            }
+            return false;
         }
     }
 }
