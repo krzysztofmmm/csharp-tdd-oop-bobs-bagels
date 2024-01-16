@@ -41,8 +41,9 @@ namespace exercise.tests
         public void TestViewBasket()
         {
             _customerBasket.AddItem(_bagel.SKU);
-            Assert.Contains(_bagel , _customerBasket.ViewBasket());
+            CollectionAssert.Contains(_customerBasket.ViewBasket() , _bagel);
         }
+
 
         [Test]
         public void TestCalculateTotalCost()
@@ -60,10 +61,11 @@ namespace exercise.tests
         [Test]
         public void TestIsFullWhenFull()
         {
-            // Assuming the capacity is 1 for simplicity
+            _customerBasket.Capacity = 1;
             _customerBasket.AddItem(_bagel.SKU);
             Assert.IsTrue(_customerBasket.IsFull());
         }
+
 
         [Test]
         public void TestAddFilling()
