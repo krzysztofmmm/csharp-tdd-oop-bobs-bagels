@@ -17,20 +17,7 @@ namespace exercise.tests
             _bagel = new Bagel(1 , "BGLO" , 0.49f , "Bagel" , "Onion");
             _inventory.UpdateInventory(_bagel);
         }
-
-        [Test]
-        public void TestAddFillingToItem()
-        {
-            Assert.IsTrue(_bagel.AddFilling("Cheese" , 0.49f));
-        }
-
-        [Test]
-        public void TestRemoveFillingFromItem()
-        {
-            _bagel.AddFilling("Cheese" , 0.49f);
-            Assert.IsTrue(_bagel.RemoveFilling("Cheese"));
-        }
-
+        #region Extension1
         [Test]
         public void TestApplyDiscount()
         {
@@ -47,8 +34,71 @@ namespace exercise.tests
         public void TestApplySpecialOffer()
         {
             _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");
-            _customerBasket.AddSpecialOffer("COFB" , 0.99f);
+            _customerBasket.AddItem("COFB" , 0.99f , "Coffee" , "Black");
+            _customerBasket.AddSpecialOffer("COFB" , 1.25f);
             Assert.AreEqual(1.25f , _customerBasket.CalculateTotalCost());
         }
+
+
+        [Test]
+        public void TestAddFillingToItem()
+        {
+            Assert.IsTrue(_bagel.AddFilling("Cheese" , 0.49f));
+        }
+
+        [Test]
+        public void TestRemoveFillingFromItem()
+        {
+            _bagel.AddFilling("Cheese" , 0.49f);
+            Assert.IsTrue(_bagel.RemoveFilling("Cheese"));
+        }
+        #endregion
+
+        #region Extension2
+        [Test]
+        public void TestPrintReceipt()
+        {
+
+            var _customerBasket = new CustomerBasket();
+            _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");
+            _customerBasket.AddItem("COFB" , 0.99f , "Coffee" , "Black");
+            _customerBasket.AddSpecialOffer("COFB" , 1.25f);
+            var receipt = new Receipt(_customerBasket);
+
+            var writer = new StringWriter();
+            Console.SetOut(writer);
+            receipt.PrintReceipt();
+
+            var output = writer.GetStringBuilder().ToString();
+            Assert.IsNotEmpty(output , "Error: No receipt was printed");
+        }
+        #endregion
+
+        #region Extension3
+
+        [Test]
+        public void TestCalculateSavings()
+        {
+            _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");
+            _customerBasket.AddItem("COFB" , 0.99f , "Coffee" , "Black");
+            _customerBasket.AddSpecialOffer("COFB" , 1.25f);
+            float totalCost = _customerBasket.CalculateTotalCost();
+
+
+            Assert.AreEqual(Math.Round(0.23f , 3) , Math.Round(_customerBasket.Savings , 3));
+        }
+
+        [Test]
+        public void TestApplySpecialOffers()
+        {
+            _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");
+            _customerBasket.AddItem("COFB" , 0.99f , "Coffee" , "Black");
+            _customerBasket.AddSpecialOffer("COFB" , 1.25f);
+            float totalCost = _customerBasket.CalculateTotalCost();
+
+            Assert.AreEqual(1.25f , totalCost);
+        }
+
+        #endregion
     }
 }
