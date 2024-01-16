@@ -21,19 +21,21 @@ namespace exercise.tests
         [Test]
         public void TestAddFillingToItem()
         {
-            Assert.IsTrue(_bagel.AddFilling("Cheese" , 0.12f));
+            Assert.IsTrue(_bagel.AddFilling("Cheese" , 0.49f));
         }
 
         [Test]
         public void TestRemoveFillingFromItem()
         {
-            _bagel.AddFilling("Cheese" , 0.12f);
+            _bagel.AddFilling("Cheese" , 0.49f);
             Assert.IsTrue(_bagel.RemoveFilling("Cheese"));
         }
 
         [Test]
         public void TestApplyDiscount()
         {
+            _bagel.DiscountQuantity = 6;
+            _bagel.DiscountPrice = 2.49f;
             for(int i = 0;i < 6;i++)
             {
                 _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");

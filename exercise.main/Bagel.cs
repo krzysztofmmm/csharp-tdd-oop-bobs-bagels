@@ -7,7 +7,9 @@
         public float Price { get; set; }
         public string Name { get; set; }
         public string Variant { get; set; }
-        public List<string> Fillings { get; set; }
+        public Dictionary<string , float> Fillings { get; set; }
+        public int DiscountQuantity { get; set; }
+        public float DiscountPrice { get; set; }
 
         public Bagel(int id , string sku , float price , string name , string variant)
         {
@@ -16,14 +18,14 @@
             Price = price;
             Name = name;
             Variant = variant;
-            Fillings = new List<string>();
+            Fillings = new Dictionary<string , float>();
         }
 
-        public bool AddFilling(string filling)
+        public bool AddFilling(string filling , float cost)
         {
-            if(!Fillings.Contains(filling))
+            if(!Fillings.ContainsKey(filling))
             {
-                Fillings.Add(filling);
+                Fillings.Add(filling , cost);
                 return true;
             }
             return false;
@@ -36,8 +38,7 @@
 
         public float ViewCost()
         {
-            return Price;
+            return Price + Fillings.Values.Sum();
         }
     }
 }
-

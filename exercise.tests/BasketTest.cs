@@ -21,28 +21,28 @@ namespace exercise.tests
         [Test]
         public void TestAddBagel()
         {
-            _bagel = _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
+            _bagel = _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");
             Assert.IsNotNull(_bagel);
         }
 
         [Test]
         public void TestRemoveBagel()
         {
-            _bagel = _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
-            Assert.IsTrue(_customerBasket.RemoveBagel(_bagel.Id));
+            _bagel = _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");
+            Assert.IsTrue(_customerBasket.RemoveItem(_bagel.Id));
         }
 
         [Test]
         public void TestViewBasket()
         {
-            _bagel = _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
+            _bagel = _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");
             CollectionAssert.Contains(_customerBasket.ViewBasket() , _bagel);
         }
 
         [Test]
         public void TestCalculateTotalCost()
         {
-            _bagel = _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
+            _bagel = _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");
             Assert.AreEqual(0.49f , _customerBasket.CalculateTotalCost());
         }
 
@@ -56,20 +56,20 @@ namespace exercise.tests
         public void TestIsFullWhenFull()
         {
             _customerBasket.ChangeCapacity(1);
-            _customerBasket.AddBagel("BGLO" , 0.49f , "Bagel" , "Onion");
+            _customerBasket.AddItem("BGLO" , 0.49f , "Bagel" , "Onion");
             Assert.IsTrue(_customerBasket.IsFull());
         }
 
         [Test]
         public void TestAddFilling()
         {
-            Assert.IsTrue(_bagel.AddFilling("Cheese"));
+            Assert.IsTrue(_bagel.AddFilling("Cheese" , 0.19f));
         }
 
         [Test]
         public void TestRemoveFilling()
         {
-            _bagel.AddFilling("Cheese");
+            _bagel.AddFilling("Cheese" , 0.19f);
             Assert.IsTrue(_bagel.RemoveFilling("Cheese"));
         }
     }
