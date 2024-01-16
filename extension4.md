@@ -1,7 +1,8 @@
 ## Extension 4
 
 ### Task
-Use [twilio](https://www.twilio.com/docs/sms/quickstart/java) to send order confirmations, the order summary, and a delivery time via SMS. For this extension, use an arbitrary delivery time.
+Use [twilio](https://www.twilio.com/docs/sms/quickstart/java) to send order confirmations, the order summary, and a delivery time via SMS. 
+For this extension, use an arbitrary delivery time.
 
 #### Part 1
 ```
