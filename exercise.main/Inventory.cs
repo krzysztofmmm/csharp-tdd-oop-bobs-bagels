@@ -12,7 +12,7 @@
             Items = new List<Bagel>();
         }
 
-        public Bagel GetBagel(string sku)
+        public Bagel GetItem(string sku)
         {
             return Items.FirstOrDefault(b => b.SKU == sku);
         }

@@ -10,6 +10,7 @@
         public Dictionary<string , float> Fillings { get; set; }
         public int DiscountQuantity { get; set; }
         public float DiscountPrice { get; set; }
+        public List<Discount> Discounts { get; set; }
 
         public Bagel(int id , string sku , float price , string name , string variant)
         {
@@ -19,6 +20,7 @@
             Name = name;
             Variant = variant;
             Fillings = new Dictionary<string , float>();
+            Discounts = new List<Discount>();
         }
 
         public bool AddFilling(string filling , float cost)
