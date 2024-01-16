@@ -19,6 +19,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DomainModels", "DomainModels", "{1137DEF6-FE57-4067-B1B6-58652CC5781C}"
 	ProjectSection(SolutionItems) = preProject
 		BobsBagelDomainModel.md = BobsBagelDomainModel.md
+		BobsBagelDomainModelExtension1.md = BobsBagelDomainModelExtension1.md
 	EndProjectSection
 EndProject
 Global
