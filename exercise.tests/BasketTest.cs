@@ -1,3 +1,5 @@
+using exercise.main;
+
 namespace exercise.tests
 {
     [TestFixture]
@@ -5,13 +7,15 @@ namespace exercise.tests
     {
         private CustomerBasket _customerBasket;
         private Bagel _bagel;
-        private Manager _manager;
+        private Inventory _inventory;
 
         [SetUp]
         public void Setup()
         {
             _customerBasket = new CustomerBasket();
-            _manager = new Manager();
+            _inventory = Inventory.Instance;
+            _bagel = new Bagel("BGLO" , 0.49f , "Bagel" , "Onion");
+            _inventory.UpdateInventory(_bagel);
         }
 
         [TestCase("BGLO" , 0.49f , "Bagel" , "Onion")]
@@ -22,7 +26,7 @@ namespace exercise.tests
         public void TestAddItem(string sku , float price , string name , string variant)
         {
             _bagel = new Bagel(sku , price , name , variant);
-            _manager.UpdateInventory(_bagel.SKU);
+            _inventory.UpdateInventory(_bagel);
             Assert.IsTrue(_customerBasket.AddItem(_bagel.SKU));
         }
 
@@ -85,21 +89,5 @@ namespace exercise.tests
         {
             Assert.AreEqual(0.49f , _bagel.ViewCost());
         }
-
-        [Test]
-        public void TestChangeBasketCapacity()
-        {
-            Assert.IsTrue(_manager.ChangeBasketCapacity(10));
-        }
-
-        [Test]
-        public void TestUpdateInventory()
-        {
-            Assert.IsTrue(_manager.UpdateInventory(_bagel.SKU));
-        }
     }
 }
-
-
-
-
