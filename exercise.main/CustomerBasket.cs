@@ -6,6 +6,8 @@
         public int Capacity { get; set; }
         public Dictionary<string , float> SpecialOffers { get; set; }
         public float Savings { get; private set; }
+        public SMSNotifier SmsNotifier { get; set; }
+        public string CustomerPhoneNumber { get; set; }
 
         public CustomerBasket()
         {
@@ -103,9 +105,6 @@
             return totalCost;
         }
 
-
-
-
         public bool IsFull()
         {
             return Items.Count >= Capacity;
@@ -148,5 +147,14 @@
             return totalSavings;
         }
 
+        public void CompleteOrder()
+        {
+            float totalCost = CalculateTotalCost();
+            float savings = CalculateSavings();
+
+            string orderSummary = $"Total cost: {totalCost}, Savings: {savings}";
+
+            SmsNotifier.SendSMS(CustomerPhoneNumber , orderSummary);
+        }
     }
 }
