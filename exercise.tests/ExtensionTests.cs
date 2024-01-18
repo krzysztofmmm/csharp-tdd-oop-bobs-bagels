@@ -1,4 +1,5 @@
 ﻿using exercise.main;
+using Moq;
 
 namespace exercise.tests
 {
@@ -8,16 +9,18 @@ namespace exercise.tests
         private CustomerBasket _customerBasket;
         private Bagel _bagel;
         private Inventory _inventory;
+        private Mock<SMSNotifier> _smsNotifierMock;
 
         [SetUp]
         public void Setup()
         {
-            _customerBasket = new CustomerBasket();
+            _smsNotifierMock = new Mock<SMSNotifier>("accountSid" , "authToken" , "fromPhoneNumber");
+            _customerBasket = new CustomerBasket { SmsNotifier = _smsNotifierMock.Object };
             _inventory = Inventory.Instance;
             _bagel = new Bagel(1 , "BGLO" , 0.49f , "Bagel" , "Onion");
             _inventory.UpdateInventory(_bagel);
         }
-        #region Extension1
+        #region Extension 1
         [Test]
         public void TestApplyDiscount()
         {
@@ -54,7 +57,7 @@ namespace exercise.tests
         }
         #endregion
 
-        #region Extension2
+        #region Extension 2
         [Test]
         public void TestPrintReceipt()
         {
@@ -74,7 +77,7 @@ namespace exercise.tests
         }
         #endregion
 
-        #region Extension3
+        #region Extension 3 
 
         [Test]
         public void TestCalculateSavings()
@@ -98,7 +101,16 @@ namespace exercise.tests
 
             Assert.AreEqual(1.25f , totalCost);
         }
+        #endregion
 
+        #region Extension 4
+        [Test]
+        public void TestCompleteOrder()
+        {
+            _smsNotifierMock.Setup(m => m.SendSMS(It.IsAny<string>() , It.IsAny<string>()));
+            _customerBasket.CompleteOrder();
+            _smsNotifierMock.Verify(m => m.SendSMS(It.IsAny<string>() , It.IsAny<string>()) , Times.Once);
+        }
         #endregion
     }
 }
